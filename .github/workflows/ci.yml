@@ -7,22 +7,38 @@ on:
 
 jobs:
 
-  build:
-
+  backend:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: my-app/backend
+
     steps:
+      - uses: actions/checkout@v4
 
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      - name: Install Dependencies
-        run: npm install
+      - run: npm install
 
-      - name: Run Tests
-        run: npm test
+      - run: npm test
+
+  frontend:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: my-app/frontend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - run: npm install
+
+      - run: npm test
