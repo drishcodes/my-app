@@ -3,28 +3,35 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "drishh/myapp"
+        FRONTEND_IMAGE = "drishh/myapp-frontend"
+        BACKEND_IMAGE = "drishh/myapp-backend"
     }
 
     stages {
 
-        
-
-        stage('Build Docker Image') {
+        stage('Build Docker Images') {
             steps {
-                bat 'docker build -t %IMAGE_NAME% .'
+                dir('my-app') {
+                    bat 'docker build -t %FRONTEND_IMAGE% ./frontend'
+                    bat 'docker build -t %BACKEND_IMAGE% ./backend'
+                }
             }
         }
 
-        stage('Push Image') {
+        stage('Push Images') {
             steps {
-                bat 'docker push %IMAGE_NAME%'
+                dir('my-app') {
+                    bat 'docker push %FRONTEND_IMAGE%'
+                    bat 'docker push %BACKEND_IMAGE%'
+                }
             }
         }
 
         stage('Deploy') {
             steps {
-                bat 'docker compose up -d'
+                dir('my-app') {
+                    bat 'docker compose up -d'
+                }
             }
         }
     }

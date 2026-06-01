@@ -4,11 +4,13 @@ services:
 
   frontend:
     build: ./frontend
+    image: drishh/myapp-frontend:latest
     ports:
       - "3000:3000"
 
   backend:
     build: ./backend
+    image: drishh/myapp-backend:latest
     ports:
       - "5000:5000"
     depends_on:
